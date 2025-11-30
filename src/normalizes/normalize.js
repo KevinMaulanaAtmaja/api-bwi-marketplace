@@ -5,6 +5,8 @@ function normalizeStock(input) {
         return "Tersedia";
     } else if (typeof input == "string" && input == "ada") {
         return "ada";
+    } else if (typeof input == "string" && input == "habis") {
+        return "habis";
     }
     else {
         return "Habis";
@@ -33,7 +35,7 @@ function normalizeCategory(name, category) {
 
 function normalizeProduct(raw, vendor) {
     return {
-        id: raw.kd_produk || raw.sku || raw.id || null,
+        id: (raw.kd_produk || raw.sku || raw.id).toString() || null,
         name: raw.nm_brg || raw.productName || normalizeCategory(raw.details?.name, raw.details?.category) || null,
         price: vendorDicount(vendor, parseInt(raw.hrg) || raw.price || finalPrice(raw.pricing?.base_price, raw.pricing?.tax)) || null,
         stock: normalizeStock(raw.ket_stok || raw.isAvailable || raw.stock) || null,

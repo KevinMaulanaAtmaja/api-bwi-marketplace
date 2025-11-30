@@ -1,8 +1,6 @@
 const express = require("express");
 const helmet = require("helmet");
-const { getWarungData } = require("./services/warung");
-const { getFashionData } = require("./services/fashion");
-const { getRestoData } = require("./services/resto");
+const { getData } = require("./services/service");
 const { normalizeProduct } = require("./normalizes/normalize.js");
 
 const app = express();
@@ -13,10 +11,13 @@ const PORT = 3300;
 app.get('/', (req, res) => {
     // res.send('Testing the server');
     res.json({
-        message: 'Testing the server'
+        message: 'Go to http://localhost:3300/integrator-products to get data'
     });
 });
 
+const getWarungData = () => getData(process.env.API_TOKO);
+const getFashionData = () => getData(process.env.API_FASHION);
+const getRestoData = () => getData(process.env.API_RESTO);
 
 app.get("/integrator-products", async (req, res) => {
     try {
