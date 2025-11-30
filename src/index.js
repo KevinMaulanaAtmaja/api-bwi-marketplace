@@ -11,7 +11,7 @@ const PORT = 3300;
 app.get('/', (req, res) => {
     // res.send('Testing the server');
     res.json({
-        message: 'Go to http://localhost:3300/integrator-products to get data'
+        message: 'Go to https://api-bwi-marketplace.vercel.app/integrator-products to get data'
     });
 });
 
@@ -46,7 +46,23 @@ app.get("/integrator-products", async (req, res) => {
     }
 });
 
+//404 handler
+app.use((req, res, next) => {
+    res.status(404).json({
+        message: "Route not found | 404",
+        path: req.originalUrl
+    });
+});
+
+//error Handler
+app.use((err, req, res, next) => {
+    // console.error("Unhandled Error:", err);
+    res.status(500).json({
+        message: "Internal Server Error",
+        error: err.message
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`Integrator Server running on port http://localhost:${PORT}`);
-})
+});
